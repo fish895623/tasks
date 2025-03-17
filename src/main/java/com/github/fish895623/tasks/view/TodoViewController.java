@@ -1,4 +1,4 @@
-package com.github.fish895623.tasks.controller;
+package com.github.fish895623.tasks.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("/todos")
 @RequiredArgsConstructor
-public class TodoController {
+public class TodoViewController {
     private final TodoService todoService;
 
     @GetMapping
