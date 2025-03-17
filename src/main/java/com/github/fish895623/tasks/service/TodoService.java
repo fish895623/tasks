@@ -24,4 +24,10 @@ public class TodoService {
                 .orElseThrow(() -> new EntityNotFoundException("Todo not found with id: " + id));
     }
 
+    public void addTodo(String title) {
+        Todo todo = new Todo();
+        todo.setTitle(title);
+        todoRepository.save(todo);
+    }
+
 }
