@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.github.fish895623.tasks.entity.Todo;
+import com.github.fish895623.tasks.entity.TodoEntity;
 import com.github.fish895623.tasks.service.TodoService;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class TodoController {
     }
 
     @GetMapping("/{id}")
-    public Todo getTodoById(@PathVariable Long id) {
+    public TodoEntity getTodoById(@PathVariable Long id) {
         return todoService.getTodoById(id);
     }
 
