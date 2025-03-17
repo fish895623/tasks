@@ -12,6 +12,18 @@
   <body>
     <main class="container mt-5">
       <h1>Projects</h1>
+      <form action="/projects" method="post" class="mb-3">
+        <div class="input-group">
+          <input
+            type="text"
+            name="title"
+            class="form-control"
+            placeholder="New Project Title"
+            required
+          />
+          <button class="btn btn-primary" type="submit">Add Project</button>
+        </div>
+      </form>
     </main>
   </body>
 </html>
