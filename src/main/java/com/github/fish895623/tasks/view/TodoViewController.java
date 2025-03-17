@@ -1,7 +1,6 @@
 package com.github.fish895623.tasks.view;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +19,7 @@ public class TodoViewController {
     private final TodoService todoService;
 
     @GetMapping
-    public String getAllTodos(Model model) {
-        model.addAttribute("todos", todoService.getAllTodos());
+    public String getAllTodos() {
         return "index";
     }
 
