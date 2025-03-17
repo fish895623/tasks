@@ -28,6 +28,10 @@
         const project = await data.json();
         console.log(project);
       };
+      const loadProjects = async () => {
+        const data = await fetch("/api/projects");
+        return await data.json();
+      };
     </script>
   </head>
   <body>
@@ -48,10 +52,16 @@
 
       <div id="project-list" class="list-group"></div>
       <script>
-        document.addEventListener("DOMContentLoaded", function async () {
-          const data = await fetch("/api/projects")
-          const projects = await data.json()
-        })
+        document.addEventListener("DOMContentLoaded", function async() {
+          const projectList = document.getElementById("project-list");
+          loadProjects().then((projects) => {
+            projects.forEach((project) => {
+              const li = document.createElement("li");
+              li.textContent = project.title;
+              projectList.appendChild(li);
+            });
+          });
+        });
       </script>
     </main>
   </body>
