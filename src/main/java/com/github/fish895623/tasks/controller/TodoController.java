@@ -3,6 +3,7 @@ package com.github.fish895623.tasks.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,5 +21,10 @@ public class TodoController {
     @GetMapping
     public List<TodoEntity> findAll() {
         return todoService.findAll();
+    }
+
+    @GetMapping("/projects/{id}")
+    public List<TodoEntity> findByProjectId(@PathVariable(name = "id") Long id) {
+        return todoService.findByProjectId(id);
     }
 }
