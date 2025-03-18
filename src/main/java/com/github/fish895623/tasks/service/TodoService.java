@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class TodoService {
     private final TodoRepository todoRepository;
 
-    public List<TodoEntity> getAllTodos() {
+    public List<TodoEntity> findAll() {
         return todoRepository.findAll();
     }
 

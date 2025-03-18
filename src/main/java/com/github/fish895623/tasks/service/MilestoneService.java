@@ -17,4 +17,8 @@ public class MilestoneService {
     public List<MilestoneEntity> getMilestones() {
         return milestoneRepository.findAll();
     }
+
+    public MilestoneEntity save(MilestoneEntity milestone) {
+        return milestoneRepository.save(milestone);
+    }
 }

@@ -75,5 +75,13 @@ jacocoTestReport {
         xml.required = true
         xml.outputLocation = layout.buildDirectory.dir('jacoco/jacoco.xml').get().asFile
     }
+	classDirectories.setFrom(files(classDirectories.files.collect {
+		fileTree(dir: it, includes: [
+			'com/github/fish895623/tasks/controller/**',
+			'com/github/fish895623/tasks/service/**',
+			'com/github/fish895623/tasks/security/**',
+			'com/github/fish895623/tasks/exception/**',
+		])
+	}))
     dependsOn test
 }
