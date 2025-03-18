@@ -30,16 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/admin/**").hasRole(RoleEnum.ADMIN.name())
                         .requestMatchers("/user/**").authenticated()
-                        .anyRequest().permitAll())
-                .formLogin((form) -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/loginProc")
-                        .usernameParameter("email")
-                        .defaultSuccessUrl("/loginOk"))
-                .logout((logout) -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/logoutOk")
-                        .deleteCookies("JSESSIONID"));
+                        .anyRequest().permitAll());
 
         return http.build();
     }
@@ -48,7 +39,7 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:5173");// 리액트 서버
+        config.addAllowedOrigin("http://localhost:5173");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 
