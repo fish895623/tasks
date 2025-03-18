@@ -14,7 +14,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fish895623.tasks.entity.MilestoneEntity;
 import com.github.fish895623.tasks.entity.ProjectEntity;
 import com.github.fish895623.tasks.repository.ProjectRepository;
@@ -32,8 +31,6 @@ public class MilestoneControllerTest {
     private MilestoneService milestoneService;
     @Autowired
     private ProjectRepository projectRepository;
-    @Autowired
-    private ObjectMapper objectMapper;
 
     private MilestoneEntity testMilestone;
 

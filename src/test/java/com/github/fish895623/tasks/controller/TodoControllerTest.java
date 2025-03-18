@@ -16,7 +16,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fish895623.tasks.entity.ProjectEntity;
 import com.github.fish895623.tasks.entity.TodoEntity;
 import com.github.fish895623.tasks.repository.ProjectRepository;
@@ -36,9 +35,6 @@ public class TodoControllerTest {
 
     @Autowired
     private TodoRepository todoRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     private ProjectEntity testProject;
     private ProjectEntity emptyProject;

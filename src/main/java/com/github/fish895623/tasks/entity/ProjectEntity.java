@@ -34,9 +34,11 @@ public class ProjectEntity {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<MilestoneEntity> milestones = new ArrayList<>();
 
     @JsonManagedReference
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<TodoEntity> todos = new ArrayList<>();
 }
