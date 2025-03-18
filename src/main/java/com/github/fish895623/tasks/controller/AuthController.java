@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.fish895623.tasks.entity.UserEntity;
+import com.github.fish895623.tasks.enummerate.RoleEnum;
 import com.github.fish895623.tasks.repository.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -60,9 +61,16 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<UserEntity> me(HttpSession session) {
-        UserEntity user = (UserEntity) session.getAttribute("user");
+        UserEntity user;
+        user = (UserEntity) session.getAttribute("user");
 
-        return ResponseEntity.ok(user != null ? user : null);
+        if (user == null) {
+            user = new UserEntity();
+            user.setEmail("anonymous");
+            user.setRole(RoleEnum.ANONYMOUS);
+        }
+
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/logout")
