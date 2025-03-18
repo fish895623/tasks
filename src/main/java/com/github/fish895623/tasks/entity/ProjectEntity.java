@@ -1,9 +1,11 @@
 package com.github.fish895623.tasks.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,12 +23,14 @@ public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column(name = "milestones")
-    private List<MilestoneEntity> milestones;
 
+    private String title;
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Column(name = "todos")
-    private List<TodoEntity> todos;
+    private List<MilestoneEntity> milestones = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TodoEntity> todos = new ArrayList<>();
 }
