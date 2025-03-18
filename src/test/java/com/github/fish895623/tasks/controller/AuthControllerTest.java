@@ -1,5 +1,7 @@
 package com.github.fish895623.tasks.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,20 +72,22 @@ public class AuthControllerTest {
     void login_WithoutUser_ShouldReturn401() throws Exception {
         userService.register(testUser);
 
+        testUser.setEmail(null);
+
         MockHttpSession session = new MockHttpSession();
 
         mockMvc.perform(post("/api/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .session(session)
                 .content(objectMapper.writeValueAsString(testUser)))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
     void login_invalid_email() throws Exception {
         userService.register(testUser);
 
-        testUser.setEmail(null);
+        testUser.setEmail("");
 
         MockHttpSession session = new MockHttpSession();
 
@@ -97,7 +101,7 @@ public class AuthControllerTest {
     void login_invalid_password() throws Exception {
         userService.register(testUser);
 
-        testUser.setPassword(null);
+        testUser.setPassword("");
 
         MockHttpSession session = new MockHttpSession();
 
@@ -105,5 +109,25 @@ public class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .session(session)
                 .content(objectMapper.writeValueAsString(testUser)));
+    }
+
+    @Test
+    void login_user_not_found_throws_exception() throws Exception {
+        userService.register(testUser);
+
+        testUser.setEmail("nonexistent@example.com");
+
+        MockHttpSession session = new MockHttpSession();
+
+        mockMvc.perform(post("/api/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .session(session)
+                .content(objectMapper.writeValueAsString(testUser)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(result -> {
+                    Exception exception = result.getResolvedException();
+                    assertTrue(exception instanceof RuntimeException);
+                    assertEquals("User not found", exception.getMessage());
+                });
     }
 }

@@ -1,6 +1,7 @@
 package com.github.fish895623.tasks.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,13 +28,8 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<UserEntity> login(HttpSession session, @RequestBody UserEntity user) {
+    public ResponseEntity<UserEntity> login(HttpSession session, @RequestBody @NonNull UserEntity user) {
         log.info("Login attempt received: {}", user);
-
-        if (user == null) {
-            log.error("Login request body is null");
-            throw new RuntimeException("Login request body is required");
-        }
 
         String email = user.getEmail();
         String password = user.getPassword();
