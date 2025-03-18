@@ -36,12 +36,12 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public ProjectEntity getProjectById(@PathVariable Long id) {
+    public ProjectEntity getProjectById(@PathVariable(name = "id") Long id) {
         return projectRepository.findById(id).orElseThrow(() -> new RuntimeException("Project not found"));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProject(@PathVariable Long id) {
+    public void deleteProject(@PathVariable(name = "id") Long id) {
         projectRepository.deleteById(id);
     }
 }

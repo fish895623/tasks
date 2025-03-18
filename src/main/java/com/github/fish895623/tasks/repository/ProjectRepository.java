@@ -7,5 +7,4 @@ import com.github.fish895623.tasks.entity.ProjectEntity;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
-
 }

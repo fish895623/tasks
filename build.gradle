@@ -3,6 +3,7 @@ plugins {
 	id 'war'
 	id 'org.springframework.boot' version '3.4.3'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
 }
 
 group = 'com.github.fish895623'
@@ -12,6 +13,11 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(23)
 	}
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+	options.compilerArgs << '-parameters'
 }
 
 configurations {
@@ -48,6 +54,9 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	
+	// setup h2
+	testRuntimeOnly 'com.h2database:h2'
 }
 
 dependencyManagement {
@@ -58,4 +67,13 @@ dependencyManagement {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        xml.outputLocation = layout.buildDirectory.dir('jacoco/jacoco.xml').get().asFile
+    }
+    dependsOn test
 }
