@@ -33,3 +33,5 @@ jobs:
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@v2.3.6
