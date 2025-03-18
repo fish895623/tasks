@@ -2,8 +2,10 @@ package com.github.fish895623.tasks.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -129,5 +131,59 @@ public class AuthControllerTest {
                     assertTrue(exception instanceof RuntimeException);
                     assertEquals("User not found", exception.getMessage());
                 });
+    }
+
+    @Test
+    void login_user_get_info() throws Exception {
+        userService.register(testUser);
+
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("user", testUser);
+
+        mockMvc.perform(get("/api/me")
+                .session(session))
+                .andExpect(status().isOk())
+                .andExpect(result -> {
+                    MockHttpSession resultSession = (MockHttpSession) result.getRequest().getSession();
+                    assertTrue(resultSession != null);
+                    UserEntity user = (UserEntity) resultSession.getAttribute("user");
+                    assertEquals(testUser, user);
+                });
+    }
+
+    @Test
+    void login_user_get_info_without_session() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+
+        session.setAttribute("user", null);
+
+        mockMvc.perform(get("/api/me")
+                .session(session))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value("anonymous"))
+                .andExpect(jsonPath("$.role").value("ANONYMOUS"));
+    }
+
+    @Test
+    void logout() throws Exception {
+        userService.register(testUser);
+
+        MockHttpSession session = new MockHttpSession();
+
+        mockMvc.perform(post("/api/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .session(session)
+                .content(objectMapper.writeValueAsString(testUser)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value("test@example.com"));
+
+        mockMvc.perform(post("/api/logout")
+                .session(session))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/me")
+                .session(session))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value("anonymous"));
     }
 }
