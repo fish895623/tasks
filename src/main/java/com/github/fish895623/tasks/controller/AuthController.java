@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.fish895623.tasks.entity.UserEntity;
 import com.github.fish895623.tasks.enummerate.RoleEnum;
 import com.github.fish895623.tasks.repository.UserRepository;
+import com.github.fish895623.tasks.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class AuthController {
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<UserEntity> login(HttpSession session, @RequestBody UserEntity user) {
@@ -38,12 +40,12 @@ public class AuthController {
 
         if (email == null || email.trim().isEmpty()) {
             log.error("Email is required");
-            throw new RuntimeException("Email is required");
+            return ResponseEntity.badRequest().body(null);
         }
 
         if (password == null || password.trim().isEmpty()) {
             log.error("Password is required");
-            throw new RuntimeException("Password is required");
+            return ResponseEntity.badRequest().body(null);
         }
 
         log.info("Looking up user with email: {}", email);
@@ -81,8 +83,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody UserEntity user) {
-        log.info("register: {}", user.toString());
-        userRepository.save(user);
+        userService.register(user);
+
         return ResponseEntity.ok("Registered");
     }
 }
