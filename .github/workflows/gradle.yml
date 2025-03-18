@@ -33,5 +33,9 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-    - name: Coveralls GitHub Action
-      uses: coverallsapp/github-action@v2.3.6
+    - uses: codecov/codecov-action@v5
+      continue-on-error: true
+      with:
+        files: ./build/reports/jacoco/jacoco.xml
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
