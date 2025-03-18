@@ -24,12 +24,38 @@ public class AuthController {
     private final UserRepository userRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(HttpSession session) {
-        UserEntity user = userRepository.findByEmail("dan990429@gmail.com")
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        session.setAttribute("user", user);
+    public ResponseEntity<UserEntity> login(HttpSession session, @RequestBody UserEntity user) {
+        log.info("Login attempt received: {}", user);
 
-        return ResponseEntity.ok("Login successful");
+        if (user == null) {
+            log.error("Login request body is null");
+            throw new RuntimeException("Login request body is required");
+        }
+
+        String email = user.getEmail();
+        String password = user.getPassword();
+
+        if (email == null || email.trim().isEmpty()) {
+            log.error("Email is required");
+            throw new RuntimeException("Email is required");
+        }
+
+        if (password == null || password.trim().isEmpty()) {
+            log.error("Password is required");
+            throw new RuntimeException("Password is required");
+        }
+
+        log.info("Looking up user with email: {}", email);
+        UserEntity foundUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> {
+                    log.error("User not found for email: {}", email);
+                    return new RuntimeException("User not found");
+                });
+
+        log.info("User found: {}", foundUser);
+        session.setAttribute("user", foundUser);
+
+        return ResponseEntity.ok(foundUser);
     }
 
     @GetMapping("/me")
