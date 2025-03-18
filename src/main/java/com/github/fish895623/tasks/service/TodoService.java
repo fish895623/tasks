@@ -1,6 +1,8 @@
 package com.github.fish895623.tasks.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -23,10 +25,14 @@ public class TodoService {
     }
 
     public List<TodoEntity> findByProjectId(Long projectId) {
-        ProjectEntity project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new EntityNotFoundException("Project not found with id: " + projectId));
+        Optional<ProjectEntity> project = projectRepository.findById(projectId);
 
-        return todoRepository.findByProject(project);
+        if (project.isEmpty()) {
+            List<TodoEntity> todos = new ArrayList<>();
+            return todos;
+        }
+
+        return todoRepository.findByProject(project.get());
     }
 
     public TodoEntity getTodoById(Long id) {

@@ -24,7 +24,7 @@ public class TodoController {
     }
 
     @GetMapping("/projects/{id}")
-    public List<TodoEntity> findByPorjectId(@PathVariable(name = "id") Long id) {
+    public List<TodoEntity> findByProjectId(@PathVariable(name = "id") Long id) {
         return todoService.findByProjectId(id);
     }
 }
