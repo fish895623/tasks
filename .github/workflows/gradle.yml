@@ -59,4 +59,5 @@ jobs:
         with:
           push: true
           labels: ghcr.io/${{ github.repository }}
-          tags: latest
+          load: true
+          pull: true
