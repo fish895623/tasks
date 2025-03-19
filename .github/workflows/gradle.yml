@@ -58,5 +58,5 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          labels: ghcr.io/${{ github.repository }}:latest
+          labels: ghcr.io/${{ github.repository }}
           tags: latest
