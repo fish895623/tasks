@@ -65,8 +65,9 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          push: true
           labels: ghcr.io/${{ github.repository }}
           load: true
           pull: true
           tags: latest
+      - name: Push to GHCR
+        run: docker push ghcr.io/${{ github.repository }}
