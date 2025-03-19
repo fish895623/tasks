@@ -4,6 +4,7 @@ WORKDIR /workspace
 
 COPY . /workspace
 
-RUN ./gradlew build -x test
+RUN chmod +x ./gradlew && \
+    ./gradlew build -x test
 
 CMD ["./gradlew", "bootRun"]
