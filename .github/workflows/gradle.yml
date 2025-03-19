@@ -62,12 +62,6 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          labels: ghcr.io/${{ github.repository }}
-          load: true
-          pull: true
-          tags: latest
-      - name: Push to GHCR
-        run: docker push ghcr.io/${{ github.repository }}
+
+      - name: Build image
+        run: docker buildx build --push --tags ghcr.io/${{ github.repository }}:latest .
