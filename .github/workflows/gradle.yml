@@ -64,4 +64,4 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build image
-        run: docker buildx build --push --tags ghcr.io/${{ github.repository }}:latest .
+        run: docker buildx build --push --tag ghcr.io/${{ github.repository }}:latest .
