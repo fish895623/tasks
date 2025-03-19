@@ -85,3 +85,7 @@ jacocoTestReport {
 	}))
     dependsOn test
 }
+
+bootWar {
+	archiveFileName = 'tasks.war'
+}
